@@ -2,8 +2,9 @@ import { useGSAP } from '@gsap/react'
 import React from 'react'
 import gsap from 'gsap'
 import {SplitText} from 'gsap/SplitText'
-
+import { Link } from 'react-router-dom'
 const Nav = () => {
+
     useGSAP(() => {
         const menuItem = document.querySelectorAll('.menu-link');
 
@@ -193,7 +194,7 @@ const Nav = () => {
       <nav>
         <div className="menu-bar">
             <div className="menu-logo">
-                <a href="#Home">Jc</a>
+                <a>Jc</a>
             </div>
             <div className="menu-toggle-button">
                 <div className="menu-toggle-label">
@@ -211,16 +212,16 @@ const Nav = () => {
                     <div className="menu-content-main">
                         <div className="menu-col">
                             <div className="menu-link">
-                                <a href="#" className='menu-item-reveal'>
+                                <Link to = "/" className='menu-item-reveal'>
                                     <span className='menu-item'>Home</span>
                                     <span className='menu-item-dupe'>Home</span> 
-                                </a>
+                                </Link>
                             </div>
                             <div className="menu-link">
-                                <a href="#" className='menu-item-reveal'>
+                                <Link to = "/about" className='menu-item-reveal'>
                                     <span className='menu-item'>About</span>    
                                     <span className='menu-item-dupe'>About</span>
-                                </a>
+                                </Link>
                             </div>
                             <div className="menu-link">
                                 <a href="#" className='menu-item-reveal'>
