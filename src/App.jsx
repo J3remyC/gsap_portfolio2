@@ -9,7 +9,9 @@ const App = () => {
   return (
     <div>
         <Nav></Nav>
-        <Hero></Hero>
+        {/* <div className="container-block"> */}
+         <Hero></Hero>
+        {/* </div> */}
     </div>
   )
 }

@@ -5,16 +5,67 @@ import {SplitText} from 'gsap/SplitText'
 
 const Nav = () => {
     useGSAP(() => {
+        const menuItem = document.querySelectorAll('.menu-link');
+
+        menuItem.forEach((item) => {
+            const original = SplitText.create(
+            item.querySelector(".menu-item"),        
+            {
+                type:"chars",
+            })
+            const duplicate = SplitText.create(
+            item.querySelector(".menu-item-dupe"),        
+            {
+                type:"chars",
+            })
+
+            gsap.set(duplicate.chars, {
+                yPercent:100,
+            })
+
+
+            const tl = gsap.timeline({paused: true});
+            item.addEventListener("mouseenter", () => tl.play());
+            item.addEventListener("mouseleave", () => tl.reverse());
+
+                tl.to(original.chars, {
+                    yPercent: -100,
+                    duration: 0.05,
+                    stagger:{
+                      amount: 0.075,
+                      from: 'end'  
+                    },
+                    duration: 0.35,
+                    color: "#E67F22",
+                    ease: 'circ .inOut'}, 0)
+                tl.to(duplicate.chars, {
+                    yPercent: 0,
+                    duration: 0.05,
+                    stagger:{
+                      amount: 0.075,
+                      from: 'end'  
+                    },
+                    duration: 0.35,
+                    color: "#E67F22",
+                    ease: 'circ .inOut'
+                }, 0)
+        })
+        
+        // Menu animation
+        gsap.set(".menu-item-reveal", {
+            yPercent: -100,
+          });
+
         const textContainers = document.querySelectorAll('.menu-col')
         let SplitTextByContainer = [];
 
         textContainers.forEach((container) => {
-            const textElements = container.querySelectorAll('a, p')
+            const textElements = container.querySelectorAll('.menu-item-wrapper, p, .menu-tag')
             let containerSplits =[];
 
             textElements.forEach((element) => {
                 const split = SplitText.create(element, {
-                    type: 'lines',
+                    type: 'chars lines',
                     mask: 'lines',
                     linesClass: 'line'
                 });
@@ -44,12 +95,23 @@ const Nav = () => {
             if(!isMenuOpen) {
                 isAnimating = true;
 
+                menuOverlayContainer.classList.add("active");
+
                 const tl = gsap.timeline();
+
                 tl.to(menuToggleLabel, {
                     y: "-110%",
                     duration: 1,
                     ease: 'power2.inOut'
-                }).to(container, {
+                })
+                .to(".menu-item-reveal",{
+                    yPercent: 0,
+                    opacity:1,
+                    stagger: 0.08,
+                    duration: 1.5,
+                    ease: 'circ.inOut'
+                }, '<')
+                .to(container, {
                     y:'100svh',
                     duration: 1,
                     ease: 'circ.inOut'
@@ -80,6 +142,7 @@ const Nav = () => {
                 isMenuOpen = true
             } else {
                 isAnimating = true
+                menuOverlayContainer.classList.remove("active");
                 hamburgerIcon.classList.remove("active");
                 const tl = gsap.timeline();
 
@@ -95,11 +158,18 @@ const Nav = () => {
                     yPercent: -50,
                     duration: 1,
                     ease: 'circ.inOut'
-                }, '<').to(menuToggleLabel, {
+                }, '<')
+                .to(menuToggleLabel, {
                     y: "0%",
                     duration: 1,
                     ease: 'circ.inOut'
-                }, "<").to(copyContainers, {
+                }, "<")
+                .to('.menu-item-reveal',{
+                    yPercent: -100,
+                    opacity: 0.25,
+                    duration: 1.5
+                }, "<")
+                .to(copyContainers, {
                     opacity: 0.25,
                     duration:1,
                     ease: 'circ.inOut'
@@ -123,7 +193,7 @@ const Nav = () => {
       <nav>
         <div className="menu-bar">
             <div className="menu-logo">
-                <a href="#Home">Jeremy</a>
+                <a href="#Home">Jc</a>
             </div>
             <div className="menu-toggle-button">
                 <div className="menu-toggle-label">
@@ -140,15 +210,35 @@ const Nav = () => {
                 <div className="menu-content-wrapper">
                     <div className="menu-content-main">
                         <div className="menu-col">
-                            <div className="menu-link"><a href="#">Home</a></div>
-                            <div className="menu-link"><a href="#">About</a></div>
-                            <div className="menu-link"><a href="#">Projects</a></div>
-                            <div className="menu-link"><a href="#">Hire me</a></div>
+                            <div className="menu-link">
+                                <a href="#" className='menu-item-reveal'>
+                                    <span className='menu-item'>Home</span>
+                                    <span className='menu-item-dupe'>Home</span> 
+                                </a>
+                            </div>
+                            <div className="menu-link">
+                                <a href="#" className='menu-item-reveal'>
+                                    <span className='menu-item'>About</span>    
+                                    <span className='menu-item-dupe'>About</span>
+                                </a>
+                            </div>
+                            <div className="menu-link">
+                                <a href="#" className='menu-item-reveal'>
+                                    <span className='menu-item'>Projects</span>
+                                    <span className='menu-item-dupe'>Projects</span>
+                                </a>
+                            </div>
+                            <div className="menu-link">
+                                <a href="#" className='menu-item-reveal'>
+                                    <span className='menu-item'>Hire me</span>
+                                    <span className='menu-item-dupe'>Hire me</span>
+                                </a>
+                            </div>
                         </div>
                         <div className="menu-col">
-                            <div className="menu-tag"><a href="#">Frontend Developer</a></div>
-                            <div className="menu-tag"><a href="#">Fullstack Developer</a></div>
-                            <div className="menu-tag"><a href="#">Web Designer</a></div>
+                            <div className="menu-tag"><a href="#">Frontend</a></div>
+                            <div className="menu-tag"><a href="#">Fullstack</a></div>
+                            <div className="menu-tag"><a href="#">Web Design</a></div>
                         </div>
                     </div>
                     <div className="menu-footer">
@@ -157,8 +247,8 @@ const Nav = () => {
                         </div>
                         <div className="menu-col">
                             <p>+63 9507 047 474</p>
-                            <p>+63 9507 047 474</p>
-                            <p>+63 9507 047 474</p>
+                            <p>jeremycervantes1304@gmail.com</p>
+                            <p>github.com/j3remyC</p>
                         </div>
                     </div>
                 </div>
