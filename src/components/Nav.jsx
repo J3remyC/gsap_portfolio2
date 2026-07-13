@@ -2,6 +2,7 @@ import { useGSAP } from '@gsap/react'
 import React from 'react'
 import gsap from 'gsap'
 import {SplitText} from 'gsap/SplitText'
+import {ScrollTrigger} from 'gsap/ScrollTrigger'
 import { Link } from 'react-router-dom'
 const Nav = () => {
 
@@ -9,6 +10,10 @@ const Nav = () => {
         const menuItem = document.querySelectorAll('.menu-link');
 
         menuItem.forEach((item) => {
+            item.addEventListener("click", () => {
+                closeMenu();
+            });
+        
             const original = SplitText.create(
             item.querySelector(".menu-item"),        
             {
@@ -21,7 +26,7 @@ const Nav = () => {
             })
 
             gsap.set(duplicate.chars, {
-                yPercent:100,
+                yPercent:150,
             })
 
 
@@ -90,6 +95,57 @@ const Nav = () => {
         let isMenuOpen = false;
         let isAnimating = false;
 
+        const closeMenu = () => {
+            isAnimating = true
+                menuOverlayContainer.classList.remove("active");
+                hamburgerIcon.classList.remove("active");
+                const tl = gsap.timeline();
+
+                tl.to(container, {
+                    y: '0svh',
+                    duration: 1,
+                    ease: 'circ.inOut'
+                }).to(menuOverlay, {
+                    clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+                    duration: 1,
+                    ease: 'circ.inOut'
+                }, '<')
+                tl.set(container, {
+                clearProps: "transform"
+                })
+                .to(menuOverlayContainer, {
+                    yPercent: -50,
+                    duration: 1,
+                    ease: 'circ.inOut'
+                }, '<')
+                .to(menuToggleLabel, {
+                    y: "0%",
+                    duration: 1,
+                    ease: 'circ.inOut'
+                }, "<")
+                .to('.menu-item-reveal',{
+                    yPercent: -100,
+                    opacity: 0.25,
+                    duration: 1.5
+                }, "<")
+                .to(copyContainers, {
+                    opacity: 0.25,
+                    duration:1,
+                    ease: 'circ.inOut'
+                }, "<")
+
+                tl.call(() => {
+                    SplitTextByContainer.forEach((containerSplits) => {
+                        const copyLines = containerSplits.flatMap((split) => split.lines);
+                        gsap.set(copyLines, {y: "-110%"});
+                    })
+                    gsap.set(copyContainers, {opacity: 1})
+                    isAnimating =false;
+                    isMenuOpen = false;
+                    ScrollTrigger.refresh();
+                })
+        }
+
         menuToggleButton.addEventListener("click", () => {
             if(isAnimating) return;
 
@@ -142,50 +198,7 @@ const Nav = () => {
                 })
                 isMenuOpen = true
             } else {
-                isAnimating = true
-                menuOverlayContainer.classList.remove("active");
-                hamburgerIcon.classList.remove("active");
-                const tl = gsap.timeline();
-
-                tl.to(container, {
-                    y: '0svh',
-                    duration: 1,
-                    ease: 'circ.inOut'
-                }).to(menuOverlay, {
-                    clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
-                    duration: 1,
-                    ease: 'circ.inOut'
-                }, '<').to(menuOverlayContainer, {
-                    yPercent: -50,
-                    duration: 1,
-                    ease: 'circ.inOut'
-                }, '<')
-                .to(menuToggleLabel, {
-                    y: "0%",
-                    duration: 1,
-                    ease: 'circ.inOut'
-                }, "<")
-                .to('.menu-item-reveal',{
-                    yPercent: -100,
-                    opacity: 0.25,
-                    duration: 1.5
-                }, "<")
-                .to(copyContainers, {
-                    opacity: 0.25,
-                    duration:1,
-                    ease: 'circ.inOut'
-                }, "<")
-
-                tl.call(() => {
-                    SplitTextByContainer.forEach((containerSplits) => {
-                        const copyLines = containerSplits.flatMap((split) => split.lines);
-                        gsap.set(copyLines, {y: "-110%"});
-                    })
-                    gsap.set(copyContainers, {opacity: 1})
-                    isAnimating =false;
-                    isMenuOpen = false;
-                })
-
+                closeMenu();
             }
         })
     })

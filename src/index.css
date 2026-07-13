@@ -3,6 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Limelight&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Tourney:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Tangerine:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
 @import "tailwindcss";
 
@@ -18,6 +21,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 body {
@@ -38,22 +42,21 @@ a {
   font-size: 1.5rem;
   font-weight: 500;
 }
-.container-block {
+/* .container-block {
   position: relative;
-  transform: translateY(0svh);
+  transform: translateY(0vh);
   color: var(--fg);
   pointer-events: all;
-}
+} */
 section {
   position: relative;
   width: 100%;
-  height: 100svh;
-  padding: 0, 2rem ;
+  height: 100vh;
+  padding: 0 2rem ;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
-  z-index: -1;
+  /* z-index: -1; */
 }
 section h1 {
   width: 75%;
@@ -63,7 +66,7 @@ nav {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100svh;
+  height: 100vh;
   pointer-events: all;
   overflow: hidden;
   z-index: 2;
@@ -86,6 +89,7 @@ nav {
   width: 2rem;
   height: 2rem;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .menu-toggle-button {
@@ -141,7 +145,7 @@ nav {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100svh;
+  height: 100vh;
   color: var(--fg);
   z-index: 1;
 }
@@ -202,6 +206,7 @@ nav {
   display: inline-block;
   line-height: 1.3;
   white-space: nowrap;
+  font-family: 'Greate Vibes';
 }
 .char{
   display: inline-block;
@@ -308,4 +313,37 @@ nav {
 .short-desc{
   text-align: center;
   font-size: 1.2rem;
+}
+
+/* ABOUT SECTION */
+.about-section{
+  background-color: #F7F6F2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  padding: 2rem;
+  height: 100vh;
+}
+.about-text-wrapper{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-family: 'Anton';
+
+  width: 50%;
+  text-align: justify;
+}
+.about-text, .about-text-shadow{
+  font-size: 2rem;
+}
+.about-text{
+  color: var(--fg);
+}
+.about-text-shadow{
+  position: absolute;
+  color: #0000003a;
 }
