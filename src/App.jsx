@@ -9,9 +9,9 @@ const App = () => {
   return (
     <div>
         <Nav></Nav>
-        {/* <div className="container-block"> */}
+        <div className="container-block">
          <Hero></Hero>
-        {/* </div> */}
+        </div>
     </div>
   )
 }
